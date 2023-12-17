@@ -1,4 +1,9 @@
 import apiClient from "./api-client";
+import {db} from "./firebase-config";
+import {collection, addDoc, getDocs, doc, updateDoc, deleteDoc}
+     from "firebase/firestore";
+
+
 
 interface Entity {
     id: number;
@@ -25,7 +30,14 @@ class HttpService {
     }
 // 3. delete
     create<T>(entity: T) {
-        return apiClient.post(this.endpoint, entity);
+        // return apiClient.post(this.endpoint, entity);
+        //firebase
+        return addDoc(collection(db, "accounts"),{
+            entity
+        })
+
+
+
     }
 // 4. create
     update<T extends Entity>(entity: T) {

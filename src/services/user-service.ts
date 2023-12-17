@@ -1,7 +1,7 @@
 import create from "./http-service";
 
 export interface User {
-    id: number;
+    // id: number;
     name: string;
     email: string;
     username: string;

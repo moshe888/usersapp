@@ -1,19 +1,21 @@
 import { useEffect, useState } from "react";
-import { User } from "../services/user-service";
+import Account from "../types/account.type";
 
 interface Props {
-  user: User;
-  deleteAction: (user:User) => void;
-  updateAction: (user:User) => void;
+  user: Account;
+  deleteAction: (user:Account) => void;
+  updateAction: (user:Account) => void;
 }
 
 
 const UserItem = (props: Props) => {
 
-  const [id, setId] = useState(props.user.id); 
-  const [name, setName] = useState(props.user.name);
+  const [id, setId] = useState(props.user.id);
+  const [firstName, setFirstName] = useState(props.user.firstName);
+  const [lastName, setLastName] = useState(props.user.lastName);
   const [email, setEmail] = useState(props.user.email);
-  const [username, setUsername] = useState(props.user.username);
+  const [avatar, setAvatar] = useState(props.user.avatar);
+  const [isApproved, setIsApproved] = useState(props.user.isApproved);
 
   useEffect(() => {
 
@@ -33,7 +35,7 @@ const UserItem = (props: Props) => {
           data-bs-target={`#collapse${props.user.id.toString()}`}
           aria-expanded="false"
           aria-controls={`collapse${props.user.id.toString()}`}>
-            {props.user.name}
+            {props.user.firstName} {props.user.lastName}
           </button>
       </h2>
       
@@ -45,29 +47,34 @@ const UserItem = (props: Props) => {
     
         
         <div className="accordion-body">
+          <div className="row">
+            <div className="col-sm-3">
+              <img src={avatar} style={{width:120, height:120}} />
+            </div>
+          </div>
         <div className="row">
             <div className="col-sm-6">
-              <label className="form-label">ID</label>
+              <label className="form-label">First name</label>
               <input
-                value={id}
+                value={firstName}
                 onChange={(e) => {
-                  setId(parseInt(e.target.value));
+                  setFirstName(e.target.value);
                 }}
                 type="text"
                 className="form-control"
               />
             </div>
-            <div className="col-sm-6">
-              <label className="form-label">Name</label>
+          </div>
+          <div className="col-sm-6">
+              <label className="form-label">Last name</label>
               <input
-                value={name}
+                value={lastName}
                 onChange={(e) => {
-                  setName(e.target.value);
+                  setLastName(e.target.value);
                 }}
-                type="text"
+                type="email"
                 className="form-control"
               />
-            </div>
           </div>
           <div className="row">
             <div className="col-sm-6">
@@ -81,22 +88,11 @@ const UserItem = (props: Props) => {
                 className="form-control"
               />
             </div>
-            <div className="col-sm-6">
-              <label className="form-label">Username</label>
-              <input
-                value={username}
-                onChange={(e) => {
-                  setUsername(e.target.value);
-                }}
-                type="email"
-                className="form-control"
-              />
-            </div>
           </div>
           <div className="row">
             <div className="col-sm-12">
               <br />
-              <button onClick={() => { props.updateAction({ id, name, email, username }) }} className="btn btn-warning">Update User</button>{ " " }
+              <button onClick={() => { props.updateAction({ id, firstName, lastName, email, isApproved }) }} className="btn btn-warning">Update User</button>{ " " }
               <button onClick={() => {props.deleteAction(props.user)}} className="btn btn-danger">Delete User</button>
             </div>
           </div>
